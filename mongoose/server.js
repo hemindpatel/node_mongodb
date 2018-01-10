@@ -7,8 +7,9 @@ const {ObjectID} = require('mongodb').ObjectID;
 
 const {mongoose1} = require('./db/mongoose');
 const {todos} = require('./models/todo');
-
 const {user} = require('./models/user');
+const {authenticate} = require('./../middleware/authenticate');
+
 
 const app=express();
 const port = process.env.PORT || 3000
@@ -111,6 +112,14 @@ app.post('/user',(req,res)=>{
     }).catch((e)=>{
          res.status(400).send(e);
     });
+});
+
+//PRIVATE ROUTE AND
+
+// AUTHENTICATION MIDDLEWARE
+
+app.get('/user/me',authenticate,(req,res)=>{
+   res.send(req.user);
 });
 
 

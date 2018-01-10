@@ -36,8 +36,9 @@ userschema.methods.toJSON = function () {
     var u=this;
     var userobj = u.toObject();
 
-    return _.pick(userobj,['_id','email'])
+    return _.pick(userobj,['_id','email']);
 };
+
 userschema.methods.generateAuthToken =function(){
     var u = this;
     var access = 'auth';
@@ -49,6 +50,24 @@ userschema.methods.generateAuthToken =function(){
         return token;
     });
 };
+
+userschema.statics.findByToken = function(token){
+    var user = this;
+    var decoded ;
+
+    //jwt.verify()
+    try{
+        decoded = jwt.verify(token,'abc123');
+    }catch(e){
+        return Promise.reject();
+    }
+
+    return user.findOne({
+        '_id':decoded._id,
+        'tokens.token':token,
+        'tokens.access':'auth'
+    });
+}
 
 var user = mongoose.model('user',userschema);
 
