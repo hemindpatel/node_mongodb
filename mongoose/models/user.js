@@ -8,17 +8,19 @@ var userschema = new mongoose.Schema({
         type:String,
         required:true,
         trim:true,
-        minlength:1,
-        unique: true,
-        validate:{
-            validator: validator.isEmail,
-            message:'{VALUE} is not a valid email'
-        }
+        minlength:1
+        // validate:{
+        //     validator: validator.isEmail,
+        //     message:'{VALUE} is not a valid email'
+        // }
+    },
+    username:{
+        type:String,
+        require:true
     },
     password:{
         type:String,
-        require:true,
-        minlength:6
+        require:true
     },
     tokens:[{
         access:{
